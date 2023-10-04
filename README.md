@@ -1,8 +1,14 @@
 # Technologies Used
-Eclipse
-Spring Boot 
-PostgreSQL 
-Maven
-Hibernate
-JPA
-Lombok
+ -Eclipse
+ 
+ -Spring Boot
+ 
+ -PostgreSQL
+ 
+ -Maven
+ 
+ -Hibernate
+ 
+ -JPA
+ 
+ -Lombok
