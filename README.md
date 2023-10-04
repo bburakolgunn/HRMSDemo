@@ -1,3 +1,7 @@
+Demo olarak İnsan Kaynakları Sistemi tasarlanılmaktadır,adım adım güncellemelerle desteklenmektedir.
+
+
+
 
 # Technologies Used
 
