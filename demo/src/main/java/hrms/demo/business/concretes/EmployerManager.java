@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import hrms.demo.business.abstracts.EmployerService;
 import hrms.demo.core.utilities.results.DataResult;
+import hrms.demo.core.utilities.results.ErrorResult;
 import hrms.demo.core.utilities.results.Result;
 import hrms.demo.core.utilities.results.SuccessDataResult;
 import hrms.demo.core.utilities.results.SuccessResult;
+import hrms.demo.core.utilities.validator.PasswordControl;
 import hrms.demo.dataAccess.abstracts.EmployerDao;
 import hrms.demo.entities.concretes.Employer;
 
@@ -25,16 +27,26 @@ public class EmployerManager implements EmployerService {
 		this.employerDao = employerDao;
 	}
 
-	@Override
-	public DataResult<List<Employer>> getAll() {
-		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Data eklendi");
-	}
+	
 
 	@Override
 	public Result add(Employer employer) {
+		
+		Result result = PasswordControl.control(employer.getPassword(), employer.getAgainpassword());
+		if(!result.isSuccess()) {
+			return new ErrorResult(result.getMessage());
+			}
+		
+		
+		
+		
 		this.employerDao.save(employer);
 		return new SuccessResult("İşveren eklendi");
 	}
 	
+	@Override
+	public DataResult<List<Employer>> getAll() {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Data eklendi");
+	}
 	
 }

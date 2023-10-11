@@ -10,19 +10,21 @@ import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
 @Data
+@EqualsAndHashCode(callSuper = false) //Nesne içeriğini kontrol eder.
 @Entity
 @Table(name = "employer_register")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employer {
+public class Employer extends User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "employer_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private int id;
 	
 	
@@ -35,18 +37,8 @@ public class Employer {
 
 	@Column(name = "web_site")
 	@NotBlank(message = "Web Site alanı Boş Bırakılamaz")
-	private String webSite;
+	private String webSiteAdress;
 	
-	
-
-	@Column(name = "website_email")
-	@NotBlank(message = "Website-Email alanı Boş Bırakılamaz")
-	private String website_email;
-	
-	
-	@Column(name = "password")
-	@NotBlank(message = "Password Alanı Boş Bırakılamaz")
-	private String password;
 	
 	@Column(name = "phone_number")
 	@NotBlank(message = "PhoneNumber alanı Boş Bırakılamaz")

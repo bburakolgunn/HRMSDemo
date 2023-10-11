@@ -1,6 +1,6 @@
 package hrms.demo.business.concretes;
 
-import java.rmi.RemoteException;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,11 @@ import hrms.demo.core.utilities.results.ErrorResult;
 import hrms.demo.core.utilities.results.Result;
 import hrms.demo.core.utilities.results.SuccessDataResult;
 import hrms.demo.core.utilities.results.SuccessResult;
+import hrms.demo.core.utilities.validator.PasswordControl;
 import hrms.demo.dataAccess.abstracts.JobSeekerDao;
 import hrms.demo.entities.concretes.JobSeeker;
 import hrms.demo.mernis.abstracts.MernisService;
+
 
 
 @Service
@@ -27,39 +29,43 @@ public class JobSeekerManager implements JobSeekerService  {
 	
 	
 	
+	
 	@Autowired
 	public JobSeekerManager(JobSeekerDao seekerDao, MernisService mernisService
 			) {
 		super();
 		this.seekerDao = seekerDao;
 		this.mernisService = mernisService;
-		
+		//this.verificationService = verificationService;
 	}
 
+	
 	@Override
-	public DataResult<List<JobSeeker>> getAll() {
+	public Result add(JobSeeker seeker) throws Exception {
 		
-		return new SuccessDataResult<List<JobSeeker>>(this.seekerDao.findAll(),"Data eklendi");
-	}
-
-	@Override
-	public Result add(JobSeeker seeker) throws NumberFormatException, RemoteException {
-		
-		boolean verificationResult = RealPerson(seeker);
-		if(!verificationResult) {
-			return new ErrorResult("Kullanıcı bilgileri yanlıştır");
+		if(!this.mernisService.CheckPerson(seeker).isSuccess()) {
+			return new ErrorResult("Tekrar deneyiniz");
 		}
+		
+		Result result = PasswordControl.control(seeker.getPassword(), seeker.getAgainpassword());
+		if(!result.isSuccess()) {
+			return new ErrorResult(result.getMessage());
+			}
+		
+		
+		
+		
+	
 		
 		this.seekerDao.save(seeker);
 		return new SuccessResult("İş arayan eklendi");
 	}
 	
-	public boolean RealPerson(JobSeeker seeker) throws NumberFormatException,RemoteException{
+
+	@Override
+	public DataResult<List<JobSeeker>> getAll() {
 		
-		boolean verificationResult = this.mernisService.RealPerson(seeker);
-		if(!verificationResult)
-		return false;
-		return true;
+		return new SuccessDataResult<List<JobSeeker>>(this.seekerDao.findAll(),"Data Listesi");
 	}
 
 }

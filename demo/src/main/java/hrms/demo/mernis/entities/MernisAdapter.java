@@ -1,9 +1,12 @@
 package hrms.demo.mernis.entities;
 
-import java.rmi.RemoteException;
+	
 
 import org.springframework.stereotype.Service;
 
+import hrms.demo.core.utilities.results.ErrorResult;
+import hrms.demo.core.utilities.results.Result;
+import hrms.demo.core.utilities.results.SuccessResult;
 import hrms.demo.entities.concretes.JobSeeker;
 import hrms.demo.mernis.abstracts.MernisService;
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
@@ -11,13 +14,24 @@ import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 @Service
 public class MernisAdapter implements MernisService {
 
-	@Override
-	public boolean RealPerson(JobSeeker seeker) throws NumberFormatException, RemoteException {
 	
-		KPSPublicSoapProxy client = new KPSPublicSoapProxy();
+
+	@Override
+	public Result CheckPerson(JobSeeker seeker) throws Exception {
+		// TODO Auto-generated method stub
+			KPSPublicSoapProxy client = new KPSPublicSoapProxy();
 		
-		return client.TCKimlikNoDogrula(Long.parseLong(seeker.getNationalityId()),seeker.getFirstName().toUpperCase(),
+		boolean result =  client.TCKimlikNoDogrula(Long.valueOf(seeker.getNationalityId()),seeker.getFirstName().toUpperCase(),
 				seeker.getLastName().toUpperCase(), seeker.getBirthYear());
+		
+		if(!result) {
+			return new ErrorResult();
+		}else {
+			return new SuccessResult();
+		}
+	
+	
+	}
 	}
 
-}
+

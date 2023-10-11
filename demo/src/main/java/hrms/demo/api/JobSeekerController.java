@@ -1,6 +1,5 @@
 package hrms.demo.api;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class JobSeekerController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody JobSeeker seeker) throws NumberFormatException, RemoteException  {
+	public Result add(@RequestBody JobSeeker seeker) throws Exception  {
 	
 		return this.seekerService.add(seeker);
 		

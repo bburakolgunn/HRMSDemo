@@ -1,11 +1,12 @@
 package hrms.demo.mernis.abstracts;
 
-import java.rmi.RemoteException;
 
+
+import hrms.demo.core.utilities.results.Result;
 import hrms.demo.entities.concretes.JobSeeker;
 
 public interface MernisService {
 	
-	public boolean RealPerson(JobSeeker seeker) throws NumberFormatException, RemoteException;
+	public Result CheckPerson(JobSeeker seeker) throws Exception;
 
 }
